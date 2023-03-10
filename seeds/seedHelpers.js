@@ -1,4 +1,4 @@
-const description =[
+module.exports.descriptors =[
     'Forest',
     'Ancient',
     'Petrified',
@@ -19,7 +19,7 @@ const description =[
     'Diamond'
 ]
 
-const places = [
+module.exports.places = [
     'Flats',
     'Village',
     'Canyon',
