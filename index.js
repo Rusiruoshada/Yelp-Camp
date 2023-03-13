@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const { url } = require("inspector");
 const Campground = require("./models/campground");
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate')
 const URL =
   "mongodb+srv://sample1:sample123@cluster0.5er8j14.mongodb.net/?retryWrites=true&w=majority";
 
@@ -26,6 +27,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+app.engine('ejs', ejsMate)
+
 app.get("/", (req, res) => {
   res.render("home");
 });
