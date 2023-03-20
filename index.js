@@ -13,7 +13,7 @@ const URL ="mongodb+srv://sample1:sample123@cluster0.5er8j14.mongodb.net/?retryW
 const campgrounds = require('./routes/campgrounds')
 const reviews = require('./routes/reviews')
 const session = require('express-session');
-
+const flash = require('connect-flash');
 
 
 
@@ -21,6 +21,8 @@ mongoose
   .connect(URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
   })
   .then(() => {
     console.log("connected to DB");
@@ -30,17 +32,6 @@ mongoose
   });
 
 const app = express();
-
-const sessionConfig = {
-  secret:'hello',
-  resave: false ,
-  saveUninitialized:true,
-  cookie: {
-    httpOnly: true,
-    expires: Date.now() * 1000 *60 *60 * 24 *7,
-    maxAge: 1000 *60 *60 * 24 *7
-  }
-}
 
 
 mongoose.set("strictQuery", true);
@@ -52,8 +43,22 @@ app.engine('ejs', ejsMate)
 app.use('/campgrounds' ,campgrounds)
 app.use('/campgrounds/:id/reviews' ,reviews)
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(session(sessionConfig))
-
+app.use(session({
+  secret:'hello',
+  resave: false ,
+  saveUninitialized:false,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() * 1000 *60 *60 * 24 *7,
+    maxAge: 1000 *60 *60 * 24 *7
+  }
+}))
+app.use(flash());
+// app.use((req,res,next) => {
+//   res.locals.message = req.flash('success');
+//   res.locals.error = req.flash('error');
+//   next();
+// })
 
 
 
