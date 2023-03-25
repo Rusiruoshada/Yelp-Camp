@@ -15,12 +15,7 @@ const LocalStrategy = require('passport-local');
 const User = require('../models/user');
 const session = require('express-session');
 const flash = require('connect-flash');
-router.use(flash());
-router.use((req,res,next) => {
-  res.locals.success = req.flash('success');
-  res.locals.error = req.flash('error');
-  next();
-})
+
 
 router.use(session({
   secret:'hello',
@@ -32,6 +27,14 @@ router.use(session({
     maxAge: 1000 *60 *60 * 24 *7
   }
 }))
+
+router.use(flash());
+router.use((req,res,next) => {
+  res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
 
 // router.use(passport.initialize());
 // router.use(passport.session());

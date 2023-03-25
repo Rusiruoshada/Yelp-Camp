@@ -18,15 +18,18 @@
         </ul>
         <div class="nav ms-auto">
           <ul class="nav nav-pills">
+            <% if(!currentUser) { %>
             <li class="nav-item">
               <a class ='nav-link active py-1 ms-2' href="/login">Login</a>
             </li>
             <li class="nav-item">
               <a class ='nav-link active py-1 ms-2' href="/register">Register</a>
             </li>
+            <% } else { %>
             <li class="nav-item">
               <a class ='nav-link active py-1 ms-2 bg-danger' href="/logout">Logout</a>
             </li>
+            <% } %>
           </ul>
         </div>
       </div>
