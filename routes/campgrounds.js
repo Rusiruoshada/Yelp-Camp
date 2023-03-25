@@ -1,12 +1,26 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const catchAsync = require('../uitils/catchAsync');
+const { campgroundSchema } = require('../schemas.js');
+const {isLoggedIn} = require('../middleware');
+
 const expressError = require('../uitils/expressError');
 const Campground = require("../models/campground");
-const {campgroundSchema,reviewSchema} = require('../schemas.js');
-const Review = require('../models/review');
+//-----------------------------------------------
+// const path = require('path');
+// const Review = require('../models/review');
+// const usersRoutes = require('../routes/users');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('../models/user');
 const session = require('express-session');
 const flash = require('connect-flash');
+router.use(flash());
+router.use((req,res,next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
 
 router.use(session({
   secret:'hello',
@@ -18,12 +32,16 @@ router.use(session({
     maxAge: 1000 *60 *60 * 24 *7
   }
 }))
-router.use(flash());
-router.use((req,res,next) => {
-  res.locals.success = req.flash('success');
-  res.locals.error = req.flash('error');
-  next();
-})
+
+// router.use(passport.initialize());
+// router.use(passport.session());
+// passport.use(new LocalStrategy(User.authenticate()));
+
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+
+//------------------------------------------------------------
 
 
 
@@ -47,17 +65,18 @@ router.get(
   })
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new");
 });
 
 router.post(
   "/",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res, next) => {
     const campground = new Campground(req.body.campground);
     await campground.save();
-    req.flash('success' , 'Successfully made a new Campground!')
+    req.flash('success' , 'Successfully made a new Campground!');
     res.redirect(`/campgrounds/${campground._id}`);
   })
 );
@@ -78,6 +97,7 @@ router.get(
 
 router.get(
   "/:id/edit",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     if (!campground) {
@@ -90,6 +110,7 @@ router.get(
 
 router.put(
   "/:id",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -103,6 +124,7 @@ router.put(
 
 router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
@@ -113,4 +135,4 @@ router.delete(
 
 
 
-module.exports =router
+module.exports = router;
