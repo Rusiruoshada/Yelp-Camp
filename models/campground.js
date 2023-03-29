@@ -21,7 +21,12 @@ mongoose
 
 const CampgroundSchema = new Schema({
     title: String,
-    image: String,
+    image: [
+      { 
+        url : String,
+        filename: String
+      }
+    ],
     price: Number,
     description: String,
     location: String,
