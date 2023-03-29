@@ -12,8 +12,10 @@ module.exports.renderNewForm =  (req, res) => {
 
 module.exports.createCampground = async (req, res, next) => {
     const campground = new Campground(req.body.campground);
+    campground.image = req.files.map(f => ({url: f.path, filename: f.filename }))
     campground.author = req.user._id;
     await campground.save();
+    console.log(campground);
     req.flash('success' , 'Successfully made a new Campground!');
     res.redirect(`/campgrounds/${campground._id}`);
 }
@@ -32,7 +34,7 @@ module.exports.showCampground = async (req, res) => {
     res.render("campgrounds/show", { campground });
   }
 
-  module.exports.renderEditForm = async (req, res) => {
+module.exports.renderEditForm = async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
