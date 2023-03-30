@@ -60,15 +60,22 @@
             required
           ><%=campground.description%></textarea>
         </div>
-        <div class="mb-3">
-          <% campground.image.forEach(function(img,i) { %>
-          <img src="<%= img.url %>" alt="" class="img-thumbnail">
-          <div class="form-check-inline">
-            <input type="checkbox" id="img-<%= i %>" name="deleteImage[]" value="<%= img.filename %>">
+
+        <h6>Select to Delete Images</h6>
+        <div class="row row-cols-1 row-cols-md-4 g-4 mb-3">
+          <% campground.image.forEach((img, i) => { %>
+          <div class="col">
+            <div class="card">
+              <img class="card-img" src="<%= img.url %>" alt="">
+              <div class="card-img-overlay text-end pt-1 pe-2">
+                <label class="visually-hidden" for="image-<%= i %>">Delete Image</label>
+                <input class="form-check-input" type="checkbox" name="deleteImage[]" value="<%= img.filename %>"  id="image-<%= i %>">
+              </div>
+            </div>
           </div>
-          <label for="img-<%= i %>">Delete</label>
           <% }) %>
         </div>
+
         <div class="mb-3">
           <button class="btn btn-primary">Save Campground</button>
         </div>
