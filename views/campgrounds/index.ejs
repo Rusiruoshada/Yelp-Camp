@@ -1,12 +1,12 @@
 <% layout('layouts/boilerplate')%>
-<div id="map" style="width: 100%; height: 500px"></div>
-
-    <h1>All Campgrounds</h1>
-    <div>
-        <a href="/campgrounds/new">Add new campground</a>
+<div id="map" class="cluster-map mb-5" ></div>
+<div class="container">
+    <h1 class="heading mb-5">All Campgrounds</h1>
+    <div class="d-grid gap-2 d-md-block">
+        <a href="/campgrounds/new" class="btn btn-outline-warning">Add new campground</a>
     </div>
     <% for (let campground of campgrounds) { %>
-        <div class="card mb-3">
+        <div class="card my-4">
             <div class="row">
                 <div class="col-md-4">
                         <!-- if below code show error about url plz check if there any campground did not have any image -->
@@ -15,8 +15,8 @@
                         <% } else { %>
                             <img src="https://images.unsplash.com/photo-1496545672447-f699b503d270?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fGNhbXBpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" alt="">
                         <% } %>
-                    </div>
-                    <div class="col-md-8">
+                </div>
+                <div class="col-md-8">
                         <div class="card-body">
                             <h5 class="card-title"><%= campground.title %></h5>
                             <p class="card-text"><%= campground.description%></p>
@@ -25,10 +25,11 @@
                             </p>
                             <a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">View <%= campground.title %></a>
                         </div>
-                    </div>
                 </div>
             </div>
+        </div>
     <% } %>
+</div>
 
     <script>
         const mapToken = '<%- process.env.MAPBOX_TOKEN %>';
