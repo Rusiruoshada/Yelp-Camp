@@ -17,10 +17,11 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const mongoSanitize = require("express-mongo-sanitize");
 const helmet = require("helmet");
+const MongoDBStore = require('connect-mongo')(session);
+
 
 mongoose.set("strictQuery", true);
-const URL =
-  "mongodb+srv://sample1:sample123@cluster0.5er8j14.mongodb.net/?retryWrites=true&w=majority";
+const URL = process.env.URL;
 mongoose
   .connect(URL, {
     useNewUrlParser: true,
@@ -49,14 +50,27 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET
+
+const store = new MongoDBStore ({
+  url : URL,
+  secret,
+  touchAfter: 24 * 60 * 60
+});
+
+store.on('error', function(e) {
+  console.log('SESSION STORE ERROR' , e)
+})
+
 const sessionConfig = {
+  store,
   name:'session',
-  secret: "hello",
-  // secure: true,
+  secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    // secure: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
   },
