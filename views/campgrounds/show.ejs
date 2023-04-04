@@ -13,6 +13,7 @@
             </div>
             <% }) %>
           </div>
+
           <% if(campground.image.length > 1) { %>
           <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -25,7 +26,7 @@
           <% } %>
         </div>
 
-          <div class="card mb-3" style="width: auto">
+          <div class="card mb-3">
               <div class="card-body">
                 <h5 class="card-title"><%= campground.title %></h5>
                 <p class="card-text"><%= campground.description  %></p>
@@ -50,6 +51,8 @@
 
       <div class="col-md-6">
         <div id='map' class="mb-3"></div>
+
+
         <% if(currentUser) { %>
         <h2>Leave a Review</h2>
         <form action="/campgrounds/<%= campground._id %>/reviews" class="form mb-3 needs-validation" method="POST" novalidate>
