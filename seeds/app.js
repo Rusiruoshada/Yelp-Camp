@@ -24,31 +24,31 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async() => {
     await Campground.deleteMany({});
-    for (let i = 0 ; i< 1000 ; i++){
-        const random1000 = Math.floor(Math.random() *1000);
+    for (let i = 0 ; i< 100 ; i++){
+        const random100 = Math.floor(Math.random() *100);
         const price = Math.floor(Math.random() *20) +10; 
         const camp = new Campground({
           // YOUR USER ID
             author: '642132bf988ab89284253069',
-            location: `${cities[random1000].city} , ${cities[random1000].state}`,
+            location: `${cities[random100].city} , ${cities[random100].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,            
             description:'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae voluptates id, nisi aut laboriosam sunt blanditiis ipsa quaerat nihil, odio facere sapiente voluptas est nulla excepturi? Repellendus alias ex tenetur.',
             price,
             geometry:{ 
                        type : "Point" ,
                        coordinates : [
-                          cities[random1000].longitude,
-                          cities[random1000].latitude
+                          cities[random100].longitude,
+                          cities[random100].latitude
                       ]
                       },
             image: [
               {
-                url: 'https://res.cloudinary.com/dt0lyvpmu/image/upload/v1680082785/YelpCamp/jbxnttlngtaqochd4d1b.jpg',
-                filename: 'YelpCamp/ze5eomooeudbmtjiigen',
+                url: 'https://res.cloudinary.com/dt0lyvpmu/image/upload/v1681101067/YelpCamp/sjtsxwip4cmex2mbfmje.jpg',
+                filename: 'YelpCamp/sjtsxwip4cmex2mbfmje',
               },
               {
-                url: 'https://res.cloudinary.com/dt0lyvpmu/image/upload/v1680065810/YelpCamp/c3j41vvjr7wusiwdcndd.jpg',
-                filename: 'YelpCamp/s1i6ttmkcimu8zknv9uf',
+                url: 'https://res.cloudinary.com/dt0lyvpmu/image/upload/v1681101446/YelpCamp/pfzhbsxfukosz3midkic.jpg',
+                filename: 'YelpCamp/pfzhbsxfukosz3midkic',
               }
             ]
 
